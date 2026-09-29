@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const options = [
@@ -27,6 +27,7 @@ export default function HomeScreen() {
         >
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.container}>
+                    <StatusBar style="auto" />
 
                     <Image
                         source={require("../../../assets/999ba052-6bf6-4929-8684-fa47d47024c8.png")}

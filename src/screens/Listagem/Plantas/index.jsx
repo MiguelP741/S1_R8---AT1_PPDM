@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, TouchableOpacity, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../api/api";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,13 +16,9 @@ export default function ListScreenPlantas() {
     }, []);
 
     async function carregarPlantas() {
-
         try {
-
             const response = await api.get("/plants");
-
             const nomes = response.data;
-
             const respostas = await Promise.all(
                 nomes.map((nome) =>
                     api.get(`/plants/${encodeURIComponent(nome)}`)
@@ -36,9 +32,7 @@ export default function ListScreenPlantas() {
             setPlantas(dados);
 
         } catch (error) {
-
             console.log("Erro ao carregar plantas:", error);
-
         } finally {
 
             setLoading(false);
@@ -47,7 +41,6 @@ export default function ListScreenPlantas() {
     }
 
     if (loading) {
-
         return (
             <SafeAreaView style={styles.safeArea}>
 
@@ -70,14 +63,14 @@ export default function ListScreenPlantas() {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-
+            <StatusBar style="auto" />
             <View style={styles.header}>
 
                 <Text
                     style={styles.voltar}
                     onPress={() => navigation.goBack()}
                 >
-                    ← Voltar
+                    Voltar
                 </Text>
 
                 <Text style={styles.titulo}>
@@ -89,13 +82,9 @@ export default function ListScreenPlantas() {
             <View style={styles.container}>
 
                 <FlatList
-                    key="duas-colunas"
                     data={plantas}
-                    keyExtractor={(item) => item.name}
-                    numColumns={2}
-                    columnWrapperStyle={styles.row}
-                    contentContainerStyle={styles.list}
-
+                    keyExtractor={(item) => String(item.name)}
+                    contentContainerStyle={{ paddingBottom: 20 }}
                     renderItem={({ item }) => (
 
                         <TouchableOpacity
@@ -116,7 +105,7 @@ export default function ListScreenPlantas() {
                                 resizeMode="contain"
                             />
 
-                            <Text style={styles.name}>
+                            <Text style={styles.nome}>
                                 {item.name}
                             </Text>
 
@@ -144,17 +133,9 @@ const styles = StyleSheet.create({
         padding: 10,
     },
 
-    list: {
-        paddingBottom: 10,
-    },
-
-    row: {
-        justifyContent: "space-between",
-    },
-
     card: {
-        width: "48%",
-        aspectRatio: 1,
+        width: "100%",
+        aspectRatio: 2,
         backgroundColor: "#D7DFD5",
         borderRadius: 15,
         marginBottom: 12,
@@ -163,10 +144,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         elevation: 5,
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
         shadowOpacity: 0.3,
         shadowRadius: 3,
     },
@@ -176,16 +153,12 @@ const styles = StyleSheet.create({
         height: "75%",
     },
 
-    name: {
-        fontSize: 18,
+    nome: {
+        fontSize: 24,
         fontWeight: "bold",
         color: "#263B25",
         textAlign: "center",
         textShadowColor: "#FFFFFF",
-        textShadowOffset: {
-            width: 1,
-            height: 1,
-        },
         textShadowRadius: 1,
         marginBottom: 3,
     },
@@ -204,14 +177,14 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: "#49683F",
+        backgroundColor: "#33482c",
         paddingHorizontal: 15,
         paddingTop: 8,
         paddingBottom: 12,
     },
 
     voltar: {
-        color: "#FFFFFF",
+        color: "#c24a4a",
         fontSize: 16,
         fontWeight: "bold",
         marginBottom: 8,

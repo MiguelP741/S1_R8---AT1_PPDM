@@ -4,16 +4,38 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DetalhesScreen() {
-
+    
     const navigation = useNavigation();
     const route = useRoute();
-
+    
     const personagem = route.params?.personagem;
-
+    
     let text = "Personagem não encontrado.";
-
+    
     if (personagem) {
         text = "Informações do personagem:";
+    }
+    
+    function formatarNome(nome) {
+    
+        return nome
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, letra => letra.toUpperCase());
+    
+    }
+    
+    function formatarValor(valor) {
+    
+        if (valor === null || valor === undefined) {
+            return "Não informado";
+        }
+    
+        if (typeof valor === "object") {
+            return JSON.stringify(valor);
+        }
+    
+        return String(valor);
+    
     }
 
     return (
@@ -25,7 +47,7 @@ export default function DetalhesScreen() {
                     style={styles.voltar}
                     onPress={() => navigation.goBack()}
                 >
-                    ← Voltar
+                    Voltar
                 </Text>
 
                 <Text style={styles.titulo}>
@@ -109,28 +131,6 @@ export default function DetalhesScreen() {
     );
 }
 
-function formatarNome(nome) {
-
-    return nome
-        .replace(/_/g, " ")
-        .replace(/\b\w/g, letra => letra.toUpperCase());
-
-}
-
-function formatarValor(valor) {
-
-    if (valor === null || valor === undefined) {
-        return "Não informado";
-    }
-
-    if (typeof valor === "object") {
-        return JSON.stringify(valor);
-    }
-
-    return String(valor);
-
-}
-
 const styles = StyleSheet.create({
 
     safeArea: {
@@ -144,14 +144,14 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: "#6B4636",
+        backgroundColor: "#4a3025",
         paddingHorizontal: 15,
         paddingTop: 8,
         paddingBottom: 12,
     },
 
     voltar: {
-        color: "#FFFFFF",
+        color: "#c24a4a",
         fontSize: 16,
         fontWeight: "bold",
         marginBottom: 8,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: "100%",
         height: 220,
-        backgroundColor: "#8A5A47",
+        backgroundColor: "#915239",
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center",
